@@ -1,9 +1,9 @@
 *Warning: beta-only - this driver has not been full tested beyond a simple connect and query*
 
-# iam-jdbc-driver
+# iam-postgresql-jdbc-driver
 A JDBC Driver wrapped around the standard PostgreSQL JDBC Driver that provides IAM authentication for connecting to AWS PostgreSQL or AWS RDS for PostgreSQL, as described in [IAM Database Authentication for MySQL and Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html). See [Example for Java](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.Java.html#UsingWithRDS.IAMDBAuth.Connecting.Java.AuthToken.Connect)
 
-This code was forked from [original repository](https://github.com/rikturnbull/iam-jdbc-driver).
+This code was forked from this [original repository](https://github.com/rikturnbull/iam-jdbc-driver) that is working for mysql.
 
 ## Properties
 
