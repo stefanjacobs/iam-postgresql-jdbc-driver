@@ -1,13 +1,15 @@
 *Warning: beta-only - this driver has not been full tested beyond a simple connect and query*
 
 # iam-jdbc-driver
-A JDBC Driver wrapped around the standard MySQL JDBC Driver that provides IAM authentication for connecting to AWS Aurora MySQL or AWS RDS for MySQL, as described in [IAM Database Authentication for MySQL and Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html).
+A JDBC Driver wrapped around the standard PostgreSQL JDBC Driver that provides IAM authentication for connecting to AWS PostgreSQL or AWS RDS for PostgreSQL, as described in [IAM Database Authentication for MySQL and Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html). See [Example for Java](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Connecting.Java.html#UsingWithRDS.IAMDBAuth.Connecting.Java.AuthToken.Connect)
+
+This code was forked from [original repository](https://github.com/rikturnbull/iam-jdbc-driver).
 
 ## Properties
 
-This JDBC driver supports all the MySQL JDBC Driver properties and an additional, required `awsRegion` driver property.
+This JDBC driver supports all the PostgreSQL JDBC Driver properties and an additional, required `awsRegion` driver property.
 
-Note that for RDS, the MySQL SSL properties must be set:
+Note that for RDS, the PostgreSQL SSL properties must be set:
 
 |Property               |Description                      |Example  |
 |-----------------------|---------------------------------|---------|
@@ -41,7 +43,7 @@ If you build the driver (recommended), then run maven with:
 
 ```mvn package -Passembly```
 
-This way you will have a single JAR file containing all the dependencies, including the MySQL driver and AWS SDK:
+This way you will have a single JAR file containing all the dependencies, including the PostgreSQL driver and AWS SDK:
 
 ```target/iam-jdbc-driver-1.1.1-SNAPSHOT-jar-with-dependencies.jar```
 
@@ -62,14 +64,14 @@ the dependencies to your classpath. These are:
   \- joda-time:joda-time:jar:2.8.1
 - com.amazonaws:aws-java-sdk-rds:jar:1.11.310
   \- com.amazonaws:jmespath-java:jar:1.11.310
-- mysql:mysql-connector-java:jar:5.1.46
+- postgresql:postgresql-connector-java:jar:42.2.5
 ```
 
 ## Driver URL
 
-Use `jdbc:mysqliam:` in place of `jdbc:mysql:` in the JDBC URL.
+Use `jdbc:postgresqliam:` in place of `jdbc:postgresql:` in the JDBC URL.
 
-For example: `jdbc:mysqliam://host.cluster.region.rds.amazonaws.com:3306/database`
+For example: `jdbc:postgresqliam://host.cluster.region.rds.amazonaws.com:3306/database`
 
 ## Example
 

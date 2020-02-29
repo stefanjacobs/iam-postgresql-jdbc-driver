@@ -2,6 +2,7 @@
   MIT License
 
   Copyright (c) 2018 Rik Turnbull
+  Copyright (c) 2020 Stefan Jacobs
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +22,19 @@
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>uk.co.controlz.aws</groupId>
+  <groupId>db.de.aws.postgres</groupId>
   <artifactId>iam-jdbc-driver</artifactId>
-  <version>1.1.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>iam-jdbc-driver</name>
-  <description>A JDBC Driver wrapped around the MySQL JDBC Driver for AWS IAM authentication</description>
-  <url>https://github.com/rikturnbull/iam-jdbc-driver</url>
+  <description>A JDBC Driver wrapped around the Postgres JDBC Driver for AWS IAM authentication</description>
+  <url>https://github.com/stefanjacobs/iam-postgres-jdbc-driver</url>
 
   <licenses>
     <license>
@@ -47,12 +49,17 @@
       <name>Rik Turnbull</name>
       <email>rik@controlz.co.uk</email>
     </developer>
+    <developer>
+      <id>stefanjacobs</id>
+      <name>Stefan Jacobs</name>
+      <email>stefan_j@gmx.de</email>
+    </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/rikturnbull/iam-jdbc-driver.git</connection>
-    <developerConnection>scm:git:git@github.com:rikturnbull/iam-jdbc-driver.git</developerConnection>
-    <url>https://github.com/rikturnbull/iam-jdbc-driver</url>
+    <connection>scm:git:git://github.com/stefanjacobs/iam-postgres-jdbc-driver.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanjacobs/iam-postgres-jdbc-driver.git</developerConnection>
+    <url>https://github.com/stefanjacobs/iam-postgres-jdbc-driver</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -60,23 +67,23 @@
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-core</artifactId>
-      <version>1.11.310</version>
+      <version>1.11.733</version>
     </dependency>
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-rds</artifactId>
-      <version>1.11.310</version>
+      <version>1.11.733</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.46</version>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.10</version>
     </dependency>
   </dependencies>
 

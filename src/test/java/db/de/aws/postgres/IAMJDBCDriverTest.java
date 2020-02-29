@@ -2,6 +2,7 @@
   * MIT License
   *
   * Copyright (c) 2018 Rik Turnbull
+  * Copyright (c) 2020 Stefan Jacobs
   *
   * Permission is hereby granted, free of charge, to any person obtaining a copy
   * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +22,7 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
-package uk.co.controlz.aws;
+package db.de.aws.postgres;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -36,7 +37,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Tests for IAM JDBC Driver wrapper for MySQL.
+ * Tests for IAM JDBC Driver wrapper for PostgresQL.
  *
  * @author Rik Turnbull
  *
@@ -47,8 +48,6 @@ public class IAMJDBCDriverTest extends TestCase {
   private final static String IAMJDBCDRIVER_REGION = "IAMJDBCDRIVER_REGION";
   private final static String IAMJDBCDRIVER_URL = "IAMJDBCDRIVER_URL";
   private final static String IAMJDBCDRIVER_USER = "IAMJDBCDRIVER_USER";
-
-
 
   /**
    * Fetches all the tests.
@@ -83,8 +82,8 @@ public class IAMJDBCDriverTest extends TestCase {
   public void testAcceptsUrl() {
     try {
       Driver driver = new IAMJDBCDriver();
-      assertTrue("jdbc:mysqliam", driver.acceptsURL("jdbc:mysqliam://cluster.eu-west-1.rds.amazonaws.com:3306/mydb"));
-      assertFalse("jdbc:mysql", driver.acceptsURL("jdbc:mysql://cluster.eu-west-1.rds.amazonaws.com:3306/mydb"));
+      assertTrue("jdbc:postgresqliam", driver.acceptsURL("jdbc:postgresqliam://cluster.eu-west-1.rds.amazonaws.com:5432/test"));
+      assertFalse("jdbc:postgresql", driver.acceptsURL("jdbc:postgresql://cluster.eu-west-1.rds.amazonaws.com:5432/test"));
     } catch(Exception e) {
       e.printStackTrace();
       fail(e.getMessage());
