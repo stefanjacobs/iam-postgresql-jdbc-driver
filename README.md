@@ -84,3 +84,13 @@ properties.setProperty("useSSL", "true");
 properties.setProperty("verifyServerCertificate", "false");
 Connection connection = DriverManager.getConnection(JDBCDRIVER_URL, properties);
 ```
+
+
+# Update to AWS SDK 2
+
+Took information from the following sources:
+- [Main source: Scala issue implementation](https://github.com/aws/aws-sdk-java-v2/issues/1157#issuecomment-561677354)
+- [Minor hints](https://github.com/aws/aws-sdk-java-v2/issues/868)
+- [Minor hints II](https://github.com/aws/aws-sdk-java-v2/issues/203)
+
+It is sad to see that the AWS SDK V2 does not have the complete feature set of v1 available. Attached is a [link](https://github.com/aws/aws-sdk-java-v2/issues/203#issuecomment-502307384) to some AWS guy reporting that you should use AWS SDK V2 besides AWS SDK V1 which is kind of sad....

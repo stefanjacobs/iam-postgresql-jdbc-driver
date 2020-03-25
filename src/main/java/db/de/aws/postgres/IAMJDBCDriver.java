@@ -24,9 +24,17 @@
   */
 package db.de.aws.postgres;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.services.rds.auth.GetIamAuthTokenRequest;
-import com.amazonaws.services.rds.auth.RdsIamAuthTokenGenerator;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.signer.params.Aws4PresignerParams;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.auth.signer.Aws4Signer;
+import software.amazon.awssdk.http.SdkHttpFullRequest;
+import software.amazon.awssdk.http.SdkHttpMethod;
+
+// import software.amazon.awssdk.services.rds.RdsClientBuilder;
+// import software.amazon.awssdk.services.rds.auth.GetIamAuthTokenRequest;
+// import com.amazonaws.services.rds.auth.RdsIamAuthTokenGenerator;
 
 import java.net.URI;
 
@@ -36,7 +44,7 @@ import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
-
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
@@ -91,11 +99,29 @@ public class IAMJDBCDriver implements java.sql.Driver {
    * @param username the RDS instance username
    */
   public static String generateAuthToken(String region, String hostname, String port, String username) {
-    final RdsIamAuthTokenGenerator generator = RdsIamAuthTokenGenerator.builder()
-        .credentials(new DefaultAWSCredentialsProviderChain()).region(region).build();
 
-    return (generator.getAuthToken(
-        GetIamAuthTokenRequest.builder().hostname(hostname).port(Integer.parseInt(port)).userName(username).build()));
+    AwsCredentials credentials = DefaultCredentialsProvider.create().resolveCredentials();
+
+    Aws4PresignerParams params = Aws4PresignerParams
+      .builder()
+      .expirationTime(Instant.now().plusSeconds(15 * 60))
+      .awsCredentials(credentials)
+      .signingName("rds-db")
+      .signingRegion(Region.of(region))
+      .build();
+    
+    SdkHttpFullRequest request = SdkHttpFullRequest
+      .builder()
+      .encodedPath("/")
+      .host(hostname)
+      .port(Integer.parseInt(port))
+      .protocol("https")
+      .method(SdkHttpMethod.GET)
+      .appendRawQueryParameter("Action", "connect")
+      .appendRawQueryParameter("DBUser", username)
+      .build();
+    
+    return Aws4Signer.create().presign(request, params).getUri().toString().substring(8);
   }
 
   /**
@@ -117,7 +143,6 @@ public class IAMJDBCDriver implements java.sql.Driver {
 
     String password = generateAuthToken(properties.getProperty(PROPERTY_AWS_REGION), uri.getHost(),
         String.valueOf(uri.getPort()), getUsernameFromUriOrProperties(uri, properties));
-
     properties.setProperty(PROPERTY_PASSWORD, password);
 
     return _postgresqlDriver.connect(postgresUrl, properties);
