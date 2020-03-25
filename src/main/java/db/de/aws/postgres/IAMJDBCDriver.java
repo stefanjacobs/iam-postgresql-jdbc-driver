@@ -32,10 +32,6 @@ import software.amazon.awssdk.auth.signer.Aws4Signer;
 import software.amazon.awssdk.http.SdkHttpFullRequest;
 import software.amazon.awssdk.http.SdkHttpMethod;
 
-// import software.amazon.awssdk.services.rds.RdsClientBuilder;
-// import software.amazon.awssdk.services.rds.auth.GetIamAuthTokenRequest;
-// import com.amazonaws.services.rds.auth.RdsIamAuthTokenGenerator;
-
 import java.net.URI;
 
 import java.sql.Connection;
@@ -115,12 +111,16 @@ public class IAMJDBCDriver implements java.sql.Driver {
       .encodedPath("/")
       .host(hostname)
       .port(Integer.parseInt(port))
-      .protocol("https")
+      .protocol("https")   // Will be stripped off; but we need to satisfy SdkHttpFullRequest
       .method(SdkHttpMethod.GET)
       .appendRawQueryParameter("Action", "connect")
       .appendRawQueryParameter("DBUser", username)
       .build();
-    
+    // DANGER: The following code snippet was in the original Scala implementation of
+    // https://github.com/aws/aws-sdk-java-v2/issues/1157#issuecomment-561677354 
+    // Aws4Signer.create().presign(request, params).getUri.toString.stripPrefix("http://")
+    // -> there is no stripPrefix in Java 8 --> trying to work around with substring of 8 ("https://")
+    // this is untested till now!
     return Aws4Signer.create().presign(request, params).getUri().toString().substring(8);
   }
 
